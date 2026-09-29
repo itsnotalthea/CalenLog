@@ -1,0 +1,75 @@
+name: calenlog
+description: "CalenLog — a local-only, password-gated habit calendar tracker."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  # scrypt's PBKDF2-HMAC-SHA256 core.
+  crypto: ^3.0.7
+  flutter:
+    sdk: flutter
+  # Pinned to 2.x: 3.x requires Dart >= 3.12, this SDK ships 3.11.
+  flutter_riverpod: ^2.6.1
+  # Password hash + salt at rest, backed by Windows DPAPI / macOS Keychain.
+  flutter_secure_storage: ^11.2.0
+  # Where the single JSON data file lives.
+  path_provider: ^2.1.6
+  # Only for the auth screen's GitHub button (opens the default browser).
+  # The app itself never makes network requests.
+  url_launcher: ^6.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  msix: ^3.18.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+  # Fonts are bundled so the app runs with zero network access.
+  #   Space Mono → headings, wordmark and hex readouts (primary)
+  #   Inter      → UI text and buttons (secondary)
+  fonts:
+    - family: SpaceMono
+      fonts:
+        - asset: assets/fonts/SpaceMono-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/SpaceMono-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/SpaceMono-Italic.ttf
+          style: italic
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Inter-Italic.ttf
+          style: italic
+
+# `flutter build msix` settings. No `capabilities` are declared because the
+# app makes no network requests; the package self-signs a local certificate
+# on first build so the MSIX installs without a Store account.
+msix_config:
+  display_name: CalenLog
+  publisher_display_name: CalenLog
+  identity_name: com.itsnotalthea.calenlog
+  logo_path: assets/images/logo.png
+  languages: en-us
+  architecture: x64
+  output_name: CalenLog
+  os_min_version: 10.0.17763.0
+  # Never offer to add the test certificate to the user's trust store — it
+  # keeps `dart run msix:pack` non-interactive and leaves trust decisions to
+  # the person installing. Set to `true` (or drop this line) to get the
+  # y/N prompt back.
+  install_certificate: false

@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // F5 — debug the Windows build (splash -> auth -> transition -> home).
+            "name": "CalenLog (Windows)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "toolArgs": ["-d", "windows"]
+        },
+        {
+            // F5 — release run, no debugger overhead.
+            "name": "CalenLog (Windows, release)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "toolArgs": ["-d", "windows"]
+        },
+        {
+            // Run the logic-only suite (date rules, log cycling, storage, scrypt, auth).
+            "name": "CalenLog tests",
+            "request": "launch",
+            "type": "dart",
+            "program": "${workspaceFolder}/test"
+        }
+    ]
+}
